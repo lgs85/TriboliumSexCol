@@ -1,18 +1,24 @@
 library(tidyverse)
+library(googledrive)
+library(googlesheets4)
 
-dd <- read_csv("Tribolium_MoPo_Colonisation - Sheet1.csv")
+dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
+  read_sheet()
 theme_set(theme_bw())
 
-dd %>% 
-  ggplot(aes(x = Treatment, y = Offspring_Gen1_Live))+
+dd %>%
+  subset(Offspring_Gen2 > 0) %>%
+  ggplot(aes(x = Treatment, y = Offspring_Gen2))+
   geom_boxplot(notch = T,fill = "grey")
 
-dd %>% 
-  subset(Offspring_Gen1_Live > 0) %>%
-  ggplot(aes(x = Offspring_Gen1_Live,fill = Treatment))+
-  geom_density(alpha = 0.4)+
-  xlim(-30,150)
+dd %>%
+  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2) %>%
+  ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
+  geom_point() +
+  geom_line(aes(group = ID))
 
 
-m1 <- lm(Offspring_Gen1_Live~Treatment,data = dd)
-summary(m1)
+dd %>%
+  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2) %>%
+  ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
+  geom_boxplot()
