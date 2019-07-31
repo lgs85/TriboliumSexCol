@@ -12,19 +12,19 @@ dd %>%
   geom_boxplot(notch = T,fill = "grey")
 
 dd %>%
-  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4) %>%
+  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4,Offspring_Gen5) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_point() +
   geom_line(aes(group = ID))
 
 
 dd %>%
-  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4) %>%
+  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4,Offspring_Gen5) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_boxplot(notch=T)
 
 dd %>%
-  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4) %>%
+  gather(key = Generation, value = Offspring,Offspring_Gen1,Offspring_Gen2,Offspring_Gen3,Offspring_Gen4,Offspring_Gen5) %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
   summarise(MeanOffspring = mean(Offspring),
@@ -36,6 +36,6 @@ dd %>%
 
 
 dd %>%
-  ggplot(aes(x = Offspring_Gen1, y = Offspring_Gen4,col = Treatment)) +
+  ggplot(aes(x = Offspring_Gen1, y = Offspring_Gen5,col = Treatment)) +
   geom_point()+
   geom_smooth()
