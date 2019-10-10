@@ -6,13 +6,21 @@ dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
   read_sheet()
 theme_set(theme_bw())
 
-ngens <- 6
+ngens <- 7
 
 #Boxplot of most recent generation
 dd %>%
   ggplot(aes(x = Treatment, y = get(paste0("Offspring_Gen",ngens))))+
   geom_boxplot(notch = T,fill = "grey")
 
+
+# Density dependence
+dd %>%
+  filter(Offspring_Gen7 > 0) %>%
+  ggplot(aes(x = Offspring_Gen6, y = Offspring_Gen7,
+         col = Treatment))+
+  geom_point()+
+  geom_smooth()
 
 #Raw data
 dd %>%
@@ -30,6 +38,7 @@ dd %>%
 
 #Treamtent means
 dd %>%
+  filter(Offspring_Gen7 > 0) %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
@@ -47,4 +56,11 @@ dd %>%
   geom_jitter(position = position_jitterdodge())+
   geom_smooth()
 
-
+#Extinction
+dd %>%
+  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+  drop_na() %>%
+  group_by(Generation,Treatment) %>%
+  summarise(Extinct = mean(Offspring == 0)) %>%
+  ggplot(aes(x = Generation,y = Extinct,col = Treatment)) +
+  geom_point()
