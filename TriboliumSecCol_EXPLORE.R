@@ -6,7 +6,7 @@ dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
   read_sheet()
 theme_set(theme_bw())
 
-ngens <- 7
+ngens <- 8
 
 #Boxplot of most recent generation
 dd %>%
@@ -25,6 +25,7 @@ dd %>%
 #Raw data
 dd %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+  filter(Offspring > 0) %>%
   ggplot(aes(x = Generation,y = Offspring)) +
   geom_point() +
   geom_line(aes(group = ID),alpha = 0.4)+
@@ -38,7 +39,7 @@ dd %>%
 
 #Treamtent means
 dd %>%
-  filter(Offspring_Gen7 > 0) %>%
+  # filter(Offspring_Gen8 > 0) %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
@@ -54,7 +55,7 @@ dd %>%
   gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
   ggplot(aes(x = as.numeric(factor(Generation)),y = Offspring,col = Treatment)) +
   geom_jitter(position = position_jitterdodge())+
-  geom_smooth()
+  geom_smooth(method = "lm")
 
 #Extinction
 dd %>%
@@ -63,4 +64,12 @@ dd %>%
   group_by(Generation,Treatment) %>%
   summarise(Extinct = mean(Offspring == 0)) %>%
   ggplot(aes(x = Generation,y = Extinct,col = Treatment)) +
-  geom_point()
+  geom_line(aes(group = Treatment))
+
+x <- dd %>%
+  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+  mutate(Gen = as.numeric(factor(Generation)))
+
+library(lme4)
+summary(glmer(Offspring~Treatment+Gen+(1|ID),data=x,family = "poisson"))
+
