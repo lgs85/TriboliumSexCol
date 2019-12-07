@@ -25,11 +25,13 @@ dd %>%
 #Raw data
 dd %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
-  filter(Offspring > 0) %>%
-  ggplot(aes(x = Generation,y = Offspring)) +
+   mutate(Offspring2 = ifelse(Offspring > 100, 100, Offspring)) %>%
+  ggplot(aes(x = Generation,y = Offspring2)) +
   geom_point() +
   geom_line(aes(group = ID),alpha = 0.4)+
   facet_wrap(~Treatment)
+
+
 
 #Treatment boxplot
 dd %>%
@@ -73,3 +75,28 @@ x <- dd %>%
 library(lme4)
 summary(glmer(Offspring~Treatment+Gen+(1|ID),data=x,family = "poisson"))
 
+
+
+
+
+
+#Extinction
+dd %>%
+  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+  drop_na() %>%
+  group_by(Generation,Treatment) %>%
+  summarise(Extinct = mean(Offspring == 0),
+            Established = mean(Offspring > 100)) %>%
+  filter(Treatment == "Mono") %>%
+  mutate(Gen2 = str_split(Generation,"Gen",simplify = T)[,2]) %>%
+  ggplot(aes(x = Gen2,y = Extinct)) +
+  geom_line(aes(group = Treatment),lty = 2)+
+  geom_line(aes(y = Established, group = Treatment))+
+  ylab("Proportion populations established/extinct")+
+  xlab("Generation")+
+  annotate("text",6,0.4,label = "Established",size = 6)+
+  annotate("text",6.6,0.22,label = "Extinct",size = 6)+
+  theme(axis.title = element_text(size = 15),
+        axis.text = element_text(size = 13))
+
+  str_split(x,"_",simplify = T)
