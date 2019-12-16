@@ -6,10 +6,11 @@ dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
   read_sheet()
 theme_set(theme_bw())
 
-ngens <- 8
+ngens <- 9
 
 #Boxplot of most recent generation
 dd %>%
+  filter(Offspring_Gen9 > 0) %>%
   ggplot(aes(x = Treatment, y = get(paste0("Offspring_Gen",ngens))))+
   geom_boxplot(notch = T,fill = "grey")
 
@@ -26,7 +27,7 @@ dd %>%
 dd %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
    mutate(Offspring2 = ifelse(Offspring > 100, 100, Offspring)) %>%
-  ggplot(aes(x = Generation,y = Offspring2)) +
+  ggplot(aes(x = Generation,y = Offspring)) +
   geom_point() +
   geom_line(aes(group = ID),alpha = 0.4)+
   facet_wrap(~Treatment)
@@ -41,7 +42,7 @@ dd %>%
 
 #Treamtent means
 dd %>%
-  # filter(Offspring_Gen8 > 0) %>%
+  # filter(Offspring_Gen9 > 0) %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
@@ -56,8 +57,8 @@ dd %>%
 dd %>%
   gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
   ggplot(aes(x = as.numeric(factor(Generation)),y = Offspring,col = Treatment)) +
-  geom_jitter(position = position_jitterdodge())+
-  geom_smooth(method = "lm")
+  geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
+  geom_smooth()
 
 #Extinction
 dd %>%
@@ -72,8 +73,10 @@ x <- dd %>%
   gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
   mutate(Gen = as.numeric(factor(Generation)))
 
+
 library(lme4)
-summary(glmer(Offspring~Treatment+Gen+(1|ID),data=x,family = "poisson"))
+y <- glm(Offspring~Treatment+Gen,data=subset(x,Offspring > 0),family = "poisson")
+summary(y)
 
 
 
