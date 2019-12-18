@@ -6,7 +6,7 @@ dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
   read_sheet()
 theme_set(theme_bw())
 
-ngens <- 8
+ngens <- length(grep("Offspring",colnames(dd)))
 
 #Boxplot of most recent generation
 dd %>%
