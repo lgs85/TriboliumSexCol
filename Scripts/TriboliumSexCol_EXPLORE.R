@@ -4,7 +4,7 @@ library(googlesheets4)
 
 dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
   read_sheet()
-theme_set(theme_bw())
+
 
 ngens <- length(grep("Offspring",colnames(dd)))
 

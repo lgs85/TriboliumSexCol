@@ -14,7 +14,3 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 dd <- read_csv("Data/Tribolium_MoPo_Colonisation.csv")
-
-
-# Set theme ---------------------------------------------------------------
-theme_set(theme_bw())
