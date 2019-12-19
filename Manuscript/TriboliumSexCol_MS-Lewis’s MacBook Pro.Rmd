@@ -23,8 +23,8 @@ opts_knit$set(root.dir = '..')
 opts_chunk$set(echo=FALSE,
                warning=FALSE,
                message=FALSE,
-               fig.width=7,
-               fig.height=4)
+               fig.width=8,
+               fig.height=8)
 
 set.seed(181219)
 ```
@@ -80,32 +80,6 @@ Another 7 days later, adults were removed by sieving and the offspring again lef
 ####Statistical analyses
 
 ##Results
-
-```{r Figure 1}
-
-ddlong %>%
-  ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
-  geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
-  geom_boxplot(alpha = 0)+
-  scale_colour_manual(values = mycols)+
-  ylab("Number of adults")
-```
-
-**Figure 1** Number of adults in experimental *T. castaneum* populations founded from a single monandrous or polyandrous female.
-
-```{r Figure 2}
-#Extinction
-ddlong %>%
-  drop_na() %>%
-  group_by(Generation,Treatment) %>%
-  summarise(Extinct = mean(Offspring == 0),
-            Established = mean(Offspring > 100)) %>%
-  ggplot(aes(x = Generation,y = Extinct,col = Treatment)) +
-  geom_line(aes(group = Treatment))+
-  geom_line(aes(group = Treatment, y = Established),lty = 2)+ scale_colour_manual(values = mycols)+
-  ylab("Proportion extinct/established")
-```
-
 
 ##Discussion
 
