@@ -23,7 +23,7 @@ opts_knit$set(root.dir = '..')
 opts_chunk$set(echo=FALSE,
                warning=FALSE,
                message=FALSE,
-               fig.width=7,
+               fig.width=5,
                fig.height=4)
 
 set.seed(181219)
@@ -75,37 +75,26 @@ After the second mating round, females were transfered to a population container
 
 35 days after founding females were removed, generation 1 adults were separated from the fodder by sieving, the fodder was discarded and the container and sieve cleaned with ethanol. The number of live adults was counted and placed into fresh fodder to seed the next generation. If >100 individuals were present, 100 were retained and the remainder discarded after counting.
 
+Our sample size was `r nrow(dd)`.
+
 Another 7 days later, adults were removed by sieving and the offspring again left to develop. This process was repeated for 10 generations.
 
 ####Statistical analyses
 
 ##Results
 
-```{r Figure 1}
+```{r}
 
 ddlong %>%
+  filter(Offspring > 0) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
-  geom_boxplot(alpha = 0)+
   scale_colour_manual(values = mycols)+
+  geom_smooth(aes(x = as.numeric(Generation)))+
   ylab("Number of adults")
 ```
 
-**Figure 1** Number of adults in experimental *T. castaneum* populations founded from a single monandrous or polyandrous female.
-
-```{r Figure 2}
-#Extinction
-ddlong %>%
-  drop_na() %>%
-  group_by(Generation,Treatment) %>%
-  summarise(Extinct = mean(Offspring == 0),
-            Established = mean(Offspring > 100)) %>%
-  ggplot(aes(x = Generation,y = Extinct,col = Treatment)) +
-  geom_line(aes(group = Treatment))+
-  geom_line(aes(group = Treatment, y = Established),lty = 2)+ scale_colour_manual(values = mycols)+
-  ylab("Proportion extinct/established")
-```
-
+**Figure 1** Number of adults in experimental *T. castaneum* populations founded from a single monandrous or polyandrous female. 
 
 ##Discussion
 

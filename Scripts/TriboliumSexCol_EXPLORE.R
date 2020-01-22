@@ -8,6 +8,13 @@ dd <- drive_get("Tribolium_MoPo_Colonisation") %>%
 
 ngens <- length(grep("Offspring",colnames(dd)))
 
+ddlong <- dd%>%
+  gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
+  mutate(Generation = str_split(Generation, "Gen",simplify = T)[,2])
+ddlong$Generation <- factor(ddlong$Generation, levels = as.character(c(1:10)))
+
+
+
 #Boxplot of most recent generation
 dd %>%
   filter(Offspring_Gen9 > 0) %>%
@@ -24,9 +31,7 @@ dd %>%
   geom_smooth()
 
 #Raw data
-dd %>%
-  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
-   mutate(Offspring2 = ifelse(Offspring > 100, 100, Offspring)) %>%
+ddlong %>%
   ggplot(aes(x = Generation,y = Offspring)) +
   geom_point() +
   geom_line(aes(group = ID),alpha = 0.4)+
@@ -35,15 +40,12 @@ dd %>%
 
 
 #Treatment boxplot
-dd %>%
-  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+ddlong %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_boxplot(notch=T)
 
 #Treamtent means
-dd %>%
-  # filter(Offspring_Gen9 > 0) %>%
-  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+ddlong %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
   summarise(MeanOffspring = mean(Offspring),
@@ -54,15 +56,13 @@ dd %>%
   geom_errorbar(aes(ymin = MeanOffspring - SEOffspring,ymax = MeanOffspring + SEOffspring),width = 0.2)
 
 #Jitter plot with smoothed lines
-dd %>%
-  gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
+ddlong %>%
   ggplot(aes(x = as.numeric(factor(Generation)),y = Offspring,col = Treatment)) +
   geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
   geom_smooth()
 
 #Extinction
-dd %>%
-  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+ddlong %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
   summarise(Extinct = mean(Offspring == 0)) %>%
@@ -84,15 +84,13 @@ summary(y)
 
 
 #Extinction
-dd %>%
-  gather(key = Generation, value = Offspring,paste0("Offspring_Gen",c(1:ngens))) %>%
+ddlong %>%
   drop_na() %>%
   group_by(Generation,Treatment) %>%
   summarise(Extinct = mean(Offspring == 0),
             Established = mean(Offspring > 100)) %>%
   filter(Treatment == "Mono") %>%
-  mutate(Gen2 = str_split(Generation,"Gen",simplify = T)[,2]) %>%
-  ggplot(aes(x = Gen2,y = Extinct)) +
+  ggplot(aes(x = Generation,y = Extinct)) +
   geom_line(aes(group = Treatment),lty = 2)+
   geom_line(aes(y = Established, group = Treatment))+
   ylab("Proportion populations established/extinct")+

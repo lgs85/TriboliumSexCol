@@ -18,3 +18,4 @@ mycols <- c("navy","darkorange")
 ddlong <- dd%>%
   gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
   mutate(Generation = str_split(Generation, "Gen",simplify = T)[,2])
+ddlong$Generation <- factor(ddlong$Generation, levels = as.character(c(1:10)))
