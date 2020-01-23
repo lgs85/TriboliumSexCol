@@ -44,3 +44,10 @@ dd$Cens <- ifelse(temp$SurvivalTime == 11,0,1)
 dd$SurvTime <- temp$SurvivalTime
 
 temp <- NULL
+
+
+
+# Subset removing first gen extinctions -----------------------------------
+
+dd1 <- filter(dd,Offspring_Gen1 > 0)
+

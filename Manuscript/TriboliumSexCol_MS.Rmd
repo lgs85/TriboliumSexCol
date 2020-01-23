@@ -62,25 +62,19 @@ Global climates are getting warmer, with dramatic consequences for population dy
 
 ## Introduction
 
-The aim of this study is to test how mating frequency affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypothesis that populations founded from polyandrous females were less likely to go extinct. We then tested the hypothesis that, in extant populations, polyandrous populations exhibited higher population growth rates and levels of fitness. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
+The aim of this study is to test how polyandry affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypothesis that populations founded from polyandrous females were less likely to go extinct. We then tested the hypothesis that, in extant populations, polyandrous populations exhibited higher population growth rates and levels of fitness. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
 
 ## Materials and Methods
 
 #### Experimental protocols
 
-All beetles were of our Karakow Superstrain (KSS) and were maintained for X both before and throughout the experiment on a fodder medium consisting of 90% organic white flour, 10% brewer’s yeast topped with a thin layer of oats for traction.
+All beetles were of our Karakow Superstrain (KSS) [@Dickinson2018-bf] and were maintained both before and throughout the experiment on a fodder medium consisting of 90% organic white flour, 10% brewer’s yeast topped with a thin layer of oats for traction.
 
-Founding females and their mates were reared and mated under standard conditions of 30&deg;C and 60% humidity. Matings were carried out in 5 cm Petri dishes containing Xml fodder. Populations were maintained in 100 ml PVC screw-cap containers, with the caps pierced for ventilation, and containing 70 ml fodder.
+Founding females and their mates were reared and mated under standard conditions of 30$^{\circ}$C and 60% humidity. Matings were carried out in 5 cm Petri dishes containing ~20 ml fodder. All females received two matings lasting 24 hours each. In the first round of matings, random pairs of virgin females and virgin males (aged ~7 days post-eclosion) were combined. In the second round of matings, females from the monogamous treatment were re-mated to the same male, who was removed from the dish before being replaced. Females from the polyandrous treatment were mated to a second male, with males being cycled within groups of five females.
 
-All females received two matings lasting 24 hours each. In the first round of matings, random pairs of virgin females and virgin males (aged ~7 days post-eclosion) were combined. In the second round of matings, females from the monandrous treatment were re-mated to the same male, who was removed from the dish before being replaced. Females from the polyandrous treatment were mated to a second male, with males being cycled within groups of five females.
+After the second mating round, females were transfered to a population container (100 ml PVC screw-cap containers, with the caps pierced for ventilation, and containing 70 ml fodder) and left to oviposit for 7 days at 38$^{\circ}$C, after which she was removed and the offspring left to develop. All containers post-mating were marked only with a randomised ID number so that experimental treatment was unknown by researchers during subsequent handling.
 
-After the second mating round, females were transfered to a population container and left to oviposit for 7 days at 38&deg;C after which she was removed and the offspring left to develop. All containers post-mating were marked only with an ID number so that a population’s treatment was unknown by researchers during subsequent handling.
-
-35 days after founding females were removed, generation 1 adults were separated from the fodder by sieving, the fodder was discarded and the container and sieve cleaned with ethanol. The number of live adults was counted and placed into fresh fodder to seed the next generation. If >100 individuals were present, 100 were retained and the remainder discarded after counting.
-
-Our sample size was `r nrow(dd)`.
-
-Another 7 days later, adults were removed by sieving and the offspring again left to develop. This process was repeated for 10 generations.
+After 35 days, the first generation of offpsring were separated from the fodder by sieving, the fodder was discarded and the container and sieve cleaned with ethanol. The number of live adults was counted and placed into fresh fodder to seed the next generation. If >100 individuals were present, 100 were retained and the remainder discarded after counting. Another 7 days later, adults were removed by sieving and the offspring again left to develop. This process was repeated for 10 generations.
 
 #### Statistical analyses
 
@@ -88,7 +82,7 @@ Another 7 days later, adults were removed by sieving and the offspring again lef
 
 ## Results
 
-We tracked a total of `r nrow(dd)` *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))` populations founded by singly-mated females went extinct, while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations were extinct (Fig. 1A). The effect of treatment on time to extinction was significant (P = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$coefficients[5])`).
+We tracked a total of `r nrow(dd)` *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))`  populations founded by singly-mated females went extinct (`r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%), while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%) and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) were extinct (Fig. 1A). The effect of treatment on time to extinction was significant (Cox proportional hazards; hazard ratio = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[1])`; 95% CIs = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[3])`, `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[4])`; P = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$coefficients[5])`). This effect remained significant after removal of populations that went extinct in the first generation (hazard ratio = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[1])`; 95% CIs = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[3])`, `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[4])`; P = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$coefficients[5])`).
 
 ```{r,fig.width=8}
 
@@ -102,14 +96,20 @@ FigA <- ddlong %>%
   scale_colour_manual(values = mycols)+
   theme(legend.position = "none")
 
-
+ddmed <- ddlong %>%
+  filter(Offspring > 0) %>%
+              group_by(Generation, Treatment) %>%
+              summarise(medoff = median(Offspring,na.rm = T),
+                        upoff = quantile(Offspring,0.75,na.rm = T),
+                        lowoff = quantile(Offspring,0.25,na.rm = T))
 
 FigB <- ddlong %>%
-  filter(Offspring > 0) %>%
+  # filter(Offspring > 0) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
-  geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
+  geom_boxplot()+
   scale_colour_manual(values = mycols)+
-  geom_smooth(aes(x = as.numeric(Generation)))+
+    scale_fill_manual(values = mycols)+
+  geom_smooth(aes(x = as.numeric(Generation)),method = "glm",method.args = list(family = "quasibinomial"))+
   ylab("Number of adults")+
   theme(legend.position = "none")
 
@@ -122,11 +122,12 @@ legend_b <- get_legend(
 
 plot_grid(legend_b, plots, ncol = 1, rel_heights = c(0.1, 1))
 
-
 ```
 
 **Figure 1**  Colonisation dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females. **A** Proportion of populations survivng over time; **B** number of adults in experimental populations that survived through ten generations. 
 
 
 ## Discussion
+
+## References
 
