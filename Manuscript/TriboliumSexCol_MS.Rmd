@@ -10,6 +10,7 @@ header-includes: \usepackage{graphicx}
     \usepackage{lineno}
     \linenumbers
 ---
+
 ```{r setup, include = F}
 
 rm(list=ls())
@@ -39,7 +40,7 @@ source("Scripts/TriboliumSexCol_CLEAN.r")
 ```
 
 
-#Polyandry promotes successful colonisation in novel thermal environments
+# Polyandry promotes successful colonisation in novel thermal environments
 
 
 Rebecca Lewis\*, Michael Pointer\*, Lucy Friend, Ramakrishnan Vasudeva, James Bemrose, Mathew J.G. Gage and Lewis G. Spurgin\*\*
@@ -52,18 +53,20 @@ School of Biological Sciences, University of East Anglia, Norwich Research Park,
 
 \pagebreak
 
-##Abstract
+## Abstract
 Global climates are getting warmer, with dramatic consequences for population dynamics and species distributions. We have limited understanding of the colonisaton dynamics when species shift to novel thermal environments, and of the evolutionary processes that promote colonisation and extinction. Previous theory and experimental research has showed that polyandry can promote successful colonisation through reducing levels of inbreeding in newly colonised populations. Here we show that polyandry provides substantial benefits in the colonisation of novel, and harsh, thermal environments. Using colonisation experiments with the model beele *Tribolium castaneum*, we founded populations at increased temperature using either singly or doubly mated females, and followed population dynamics for ten generations. We found that extinction rates were XX in polyandrous compared to XX in monandrous-founded populations. 
 
 **Key words:** colonisation, extinction, population dynamics, sexual selection, Tribolium
 
 \pagebreak
 
-##Introduction
+## Introduction
 
-##Materials and Methods
+The aim of this study is to test how mating frequency affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypothesis that populations founded from polyandrous females were less likely to go extinct. We then tested the hypothesis that, in extant populations, polyandrous populations exhibited higher population growth rates and levels of fitness. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
 
-####Experimental protocols
+## Materials and Methods
+
+#### Experimental protocols
 
 All beetles were of our Karakow Superstrain (KSS) and were maintained for X both before and throughout the experiment on a fodder medium consisting of 90% organic white flour, 10% brewer’s yeast topped with a thin layer of oats for traction.
 
@@ -79,22 +82,51 @@ Our sample size was `r nrow(dd)`.
 
 Another 7 days later, adults were removed by sieving and the offspring again left to develop. This process was repeated for 10 generations.
 
-####Statistical analyses
+#### Statistical analyses
 
-##Results
 
-```{r}
 
-ddlong %>%
+## Results
+
+We tracked a total of `r nrow(dd)` *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))` populations founded by singly-mated females went extinct, while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations were extinct (Fig. 1A). The effect of treatment on time to extinction was significant (P = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$coefficients[5])`).
+
+```{r,fig.width=8}
+
+FigA <- ddlong %>%
+  drop_na() %>%
+  group_by(Generation, Treatment) %>%
+  summarise(Extant = mean(Offspring > 0)) %>%
+  ggplot(aes(x = Generation, y = Extant, col = Treatment))+
+  geom_line(aes(group = Treatment))+
+  ylab("Proportion of populations surviving")+
+  scale_colour_manual(values = mycols)+
+  theme(legend.position = "none")
+
+
+
+FigB <- ddlong %>%
   filter(Offspring > 0) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_jitter(position = position_jitterdodge(),alpha = 0.4)+
   scale_colour_manual(values = mycols)+
   geom_smooth(aes(x = as.numeric(Generation)))+
-  ylab("Number of adults")
+  ylab("Number of adults")+
+  theme(legend.position = "none")
+
+plots <- plot_grid(FigA, FigB, labels = "AUTO")
+legend_b <- get_legend(
+  FigA + 
+    guides(color = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom")
+)
+
+plot_grid(legend_b, plots, ncol = 1, rel_heights = c(0.1, 1))
+
+
 ```
 
-**Figure 1** Number of adults in experimental *T. castaneum* populations founded from a single monandrous or polyandrous female. 
+**Figure 1**  Colonisation dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females. **A** Proportion of populations survivng over time; **B** number of adults in experimental populations that survived through ten generations. 
 
-##Discussion
+
+## Discussion
 
