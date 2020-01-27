@@ -13,7 +13,7 @@ ngens <- length(grep("Offspring",colnames(dd)))
 
 theme_lgs <- theme_bw()
 theme_set(theme_lgs)
-mycols <- c("navy","darkorange")
+mycols <- c("dodgerblue3","darkorange")
 
 
 
@@ -50,4 +50,5 @@ temp <- NULL
 # Subset removing first gen extinctions -----------------------------------
 
 dd1 <- filter(dd,Offspring_Gen1 > 0)
+ddlong$RID <- c(1:nrow(ddlong))
 

@@ -37,6 +37,7 @@ set.seed(181219)
 source("Scripts/TriboliumSexCol_LOAD.R")
 source("Scripts/TriboliumSexCol_FUNCTIONS.r")
 source("Scripts/TriboliumSexCol_CLEAN.r")
+source("Scripts/TriboliumSexCol_MODELS.r")
 ```
 
 
@@ -62,13 +63,19 @@ Global climates are getting warmer, with dramatic consequences for population dy
 
 ## Introduction
 
+Understanding pocesses involved in colonisation success - particular relevance in the context of climate change
+
+Polyandry - general benefits and role in establishment
+
+Tregenza model and Holman study
+
 The aim of this study is to test how polyandry affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypothesis that populations founded from polyandrous females were less likely to go extinct. We then tested the hypothesis that, in extant populations, polyandrous populations exhibited higher population growth rates and levels of fitness. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
 
 ## Materials and Methods
 
 #### Experimental protocols
 
-All beetles were of our Karakow Superstrain (KSS) [@Dickinson2018-bf] and were maintained both before and throughout the experiment on a fodder medium consisting of 90% organic white flour, 10% brewer’s yeast topped with a thin layer of oats for traction.
+All beetles were of our Karakow Superstrain (KSS) [@Dickinson2018] and were maintained both before and throughout the experiment on a fodder medium consisting of 90% organic white flour, 10% brewer’s yeast topped with a thin layer of oats for traction.
 
 Founding females and their mates were reared and mated under standard conditions of 30$^{\circ}$C and 60% humidity. Matings were carried out in 5 cm Petri dishes containing ~20 ml fodder. All females received two matings lasting 24 hours each. In the first round of matings, random pairs of virgin females and virgin males (aged ~7 days post-eclosion) were combined. In the second round of matings, females from the monogamous treatment were re-mated to the same male, who was removed from the dish before being replaced. Females from the polyandrous treatment were mated to a second male, with males being cycled within groups of five females.
 
@@ -77,14 +84,35 @@ After the second mating round, females were transfered to a population container
 After 35 days, the first generation of offpsring were separated from the fodder by sieving, the fodder was discarded and the container and sieve cleaned with ethanol. The number of live adults was counted and placed into fresh fodder to seed the next generation. If >100 individuals were present, 100 were retained and the remainder discarded after counting. Another 7 days later, adults were removed by sieving and the offspring again left to develop. This process was repeated for 10 generations.
 
 #### Statistical analyses
+All analyses were carried out using R version 3.3.3 [@Development_Core_Team2011]. We separately modeled how the experimental mating treatment affected i) the probability of extinction over ten generations, and ii) changes in population size over the same period. For the extinction analysis, we used Cox proportional hazards models, implemented in the survival package [@survival-package] in R. Because some populations went extinct in the first generation as a result of non-genetic processes (i.e. due to a failure to mate/conceive), we ran the survival models both with and without populations that went extinct in the first generation.
 
+To model how population size changed over time, we used generalised linear mixed models, implemented using the lme4 package [@lme4-package] in R. For this analysis we only included populations that remained extant throughout the 10 generations of the study. Offspring number per generation was modeled as a response variable with a Poisson error distribution, and generation and experimental treatment (monogamous vs polyandrous founder) were fitted as explanatory variables. We constructed three of models, with generation fitted as i) a continuous linear effect, ii) a fixed factor and iii) a third order polynomial. For all models, population ID was fitted as a random effect.
 
 
 ## Results
 
-We tracked a total of `r nrow(dd)` *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))`  populations founded by singly-mated females went extinct (`r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%), while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%) and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) were extinct (Fig. 1A). The effect of treatment on time to extinction was significant (Cox proportional hazards; hazard ratio = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[1])`; 95% CIs = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[3])`, `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$conf.int[4])`; P = `r round3(summary(coxph(Surv(time = dd$SurvTime,event = dd$Cens)~Treatment,data=dd))$coefficients[5])`). This effect remained significant after removal of populations that went extinct in the first generation (hazard ratio = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[1])`; 95% CIs = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[3])`, `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$conf.int[4])`; P = `r round3(summary(coxph(Surv(time = dd1$SurvTime,event = dd1$Cens)~Treatment,data=dd1))$coefficients[5])`).
+We tracked a total of `r nrow(filter(dd,Treatment == "Monogamous"))` singly-mated and `r nrow(filter(dd,Treatment == "Polyandrous"))` doubly-mated *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. Overall dynamics of the populations are given in Figure 1; though there was an overall trend for increasing population size, there were substantial fluctations over generations. Despite this, we observed a a clear and consistent trend of larger adult population size in populations founded by polyandrous compared to monogamous females (Fig. 1).
 
-```{r,fig.width=8}
+```{r Fig 1,fig.width=8}
+Fig <- ddlong %>%
+  ggplot(aes(x = Generation,y = Offspring,fill = Treatment)) +
+  geom_boxplot()+
+    scale_fill_manual(values = mycols)+
+  ylab("Number of adults")+
+  theme(legend.position = "top")
+
+
+Fig
+```
+
+**Figure 1**  Colonisation dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females.
+
+
+For statistical comparison of our experimental treatments, we separately compared extinction rates (i.e. did time to extinction differ between treatments), and population size changes over time (only including populations that survived the entire experiment). In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))`  populations founded by singly-mated females went extinct (`r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%), while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%) and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) were extinct (Fig. 2A). The effect of treatment on time to extinction was significant (Cox proportional hazards; hazard ratio = `r round3(summary(survall)$conf.int[1])`; 95% CIs = `r round3(summary(survall)$conf.int[3])`, `r round3(summary(survall)$conf.int[4])`; P = `r round3(summary(survall)$coefficients[5])`). This effect remained significant after removal of populations that went extinct in the first generation (hazard ratio = `r round3(summary(surv1)$conf.int[1])`; 95% CIs = `r round3(summary(surv1)$conf.int[3])`, `r round3(summary(surv1)$conf.int[4])`; P = `r round3(summary(surv1)$coefficients[5])`).
+
+We next tested founder mating strategy affected population sizes throughout the ten generations of our experiment, excluding populations that went extinct. We found that populations founded from polyandrous females had higher overall population sizes populations founded by monandrous males (Fig. 2B, Table 1). We also found that, when generation modeled as a linear variable, population size increased over time, but that there was no interaction between treatment and generation (Fig. 2B, Table 1). The effect of experimental treatment was also significant when generation was modeled as a fixed factor (P = `r round3(summary(popfac)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`), and as a third-order polynomial (P = `r round3(summary(poppoly)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`).
+
+```{r Fig 2,fig.width=8}
 
 FigA <- ddlong %>%
   drop_na() %>%
@@ -96,22 +124,14 @@ FigA <- ddlong %>%
   scale_colour_manual(values = mycols)+
   theme(legend.position = "none")
 
-ddmed <- ddlong %>%
-  filter(Offspring > 0) %>%
-              group_by(Generation, Treatment) %>%
-              summarise(medoff = median(Offspring,na.rm = T),
-                        upoff = quantile(Offspring,0.75,na.rm = T),
-                        lowoff = quantile(Offspring,0.25,na.rm = T))
-
 FigB <- ddlong %>%
-  # filter(Offspring > 0) %>%
+  filter(Offspring > 0) %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
-  geom_boxplot()+
-  scale_colour_manual(values = mycols)+
-    scale_fill_manual(values = mycols)+
-  geom_smooth(aes(x = as.numeric(Generation)),method = "glm",method.args = list(family = "quasibinomial"))+
+  geom_line(aes(group = ID),alpha = 0.2)+
+  geom_smooth(aes(x = as.numeric(Generation)),method = "glm",method.args = list(family = "poisson")) +
   ylab("Number of adults")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_colour_manual(values = mycols)
 
 plots <- plot_grid(FigA, FigB, labels = "AUTO")
 legend_b <- get_legend(
@@ -124,8 +144,22 @@ plot_grid(legend_b, plots, ncol = 1, rel_heights = c(0.1, 1))
 
 ```
 
-**Figure 1**  Colonisation dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females. **A** Proportion of populations survivng over time; **B** number of adults in experimental populations that survived through ten generations. 
+**Figure 2**  Extinction and population dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females. **A** Proportion of populations survivng over time; **B** number of adults in experimental populations that survived through ten generations; thin lines represent individual populations, while the thick lines represent fitted values from a GLM.
 
+
+**Table 1** Summary of results from a generalised linear mixed model of population dynamics of experimental *T. castaneum* populations founded from monandrous or polyandrous females. Here, the 'treatment' estimate refers to the effect of polyandrous relative to monandrous females, and generation was modeled as a linear effect. Population ID was modeled as a random effect (Var = 0.27, SD = 0.52).
+
+```{r}
+t1 <- summary(poplin)$coefficients %>%
+  data.frame() %>%
+  rbind(summary(poplinint)$coefficients["TreatmentPolyandrous:as.numeric(Generation)",]) %>%
+  rownames_to_column("x") %>%
+  mutate(x = replace(x, x %in% c( "TreatmentPolyandrous","as.numeric(Generation)","4"),c("Treatment","Generation","Treatment x Generation"))) %>%
+  select(" " = "x", Estimate, "SE" = "Std..Error","P" =  "Pr...z..") %>%
+  mutate(P = sapply(P,round3)) %>%
+  kable(digits = 3)
+t1
+```
 
 ## Discussion
 
