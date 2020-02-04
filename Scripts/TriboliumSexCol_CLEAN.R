@@ -1,7 +1,8 @@
 
 # Get rid of missing populations ------------------------------------------
 
-dd <- filter(dd,!is.na(Offspring_Gen1))
+dd <- dd[complete.cases(dd),]
+dd$ID <- factor(dd$ID)
 
 # Define number of generations --------------------------------------------
 
@@ -25,10 +26,7 @@ ddlong <- dd%>%
 ddlong$Generation <- factor(ddlong$Generation, levels = as.character(c(1:10)))
 
 
-
 # Survival ----------------------------------------------------------------
-
-
 
 temp <- dd
 
@@ -49,6 +47,20 @@ temp <- NULL
 
 # Subset removing first gen extinctions -----------------------------------
 
+ddm <- filter(ddlong,Offspring > 0)
 dd1 <- filter(dd,Offspring_Gen1 > 0)
+dd10 <- filter(dd,Offspring_Gen10 > 0)
 ddlong$RID <- c(1:nrow(ddlong))
+ddm$RID <- c(1:nrow(ddm))
 
+
+
+# Rates of change ---------------------------------------------------------
+
+x1 <- dd[,grepl(paste0("Gen",c(1:9),"$",collapse = "|"),colnames(dd))]
+x2 <- dd[,grepl(paste0("Gen",c(2:10),"$",collapse = "|"),colnames(dd))]
+
+ch <- cbind(dd[,c("ID","Treatment")],x2-x1) %>%
+  gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(2:10))) %>%
+  mutate(Generation = str_split(Generation, "Gen",simplify = T)[,2])
+ch$Generation <- factor(ch$Generation, levels = as.character(c(2:10)))

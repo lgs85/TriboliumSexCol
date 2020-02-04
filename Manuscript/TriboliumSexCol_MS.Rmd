@@ -44,7 +44,7 @@ source("Scripts/TriboliumSexCol_MODELS.r")
 # Polyandry promotes successful colonisation in novel thermal environments
 
 
-Rebecca Lewis\*, Michael Pointer\*, Lucy Friend, Ramakrishnan Vasudeva, James Bemrose, Mathew J.G. Gage and Lewis G. Spurgin\*\*
+Rebecca Lewis\*, Michael D. Pointer\*, Lucy Friend, Ramakrishnan Vasudeva, James Bemrose, Mathew J.G. Gage and Lewis G. Spurgin\*\*
 
 School of Biological Sciences, University of East Anglia, Norwich Research Park, United Kingdom
 
@@ -55,21 +55,24 @@ School of Biological Sciences, University of East Anglia, Norwich Research Park,
 \pagebreak
 
 ## Abstract
-Global climates are getting warmer, with dramatic consequences for population dynamics and species distributions. We have limited understanding of the colonisaton dynamics when species shift to novel thermal environments, and of the evolutionary processes that promote colonisation and extinction. Previous theory and experimental research has showed that polyandry can promote successful colonisation through reducing levels of inbreeding in newly colonised populations. Here we show that polyandry provides substantial benefits in the colonisation of novel, and harsh, thermal environments. Using colonisation experiments with the model beele *Tribolium castaneum*, we founded populations at increased temperature using either singly or doubly mated females, and followed population dynamics for ten generations. We found that extinction rates were XX in polyandrous compared to XX in monandrous-founded populations. 
+Global climates are getting warmer, with consequences for population dynamics and species distributions. We have limited understanding of the colonisaton dynamics when species shift to novel thermal environments, and of the evolutionary processes that promote colonisation and extinction. Previous theory and experimental research has showed that polyandry can promote successful colonisation through reducing levels of inbreeding in newly colonised populations. Here we show that polyandry provides substantial benefits in the colonisation of novel, and harsh, thermal environments. Using colonisation experiments with the model beele *Tribolium castaneum*, we founded populations at increased temperature using either singly or doubly mated females, and followed population dynamics for ten generations. We found that extinction rates were significantly lower (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) in polyandrous-founded populations compared to  monogamous-founded populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%). Further, we found significant and consistently higher population sizes in polyandrous compared to monogamous-founded populations. Our results therefore suggest that polyandry provides immediate benefits for colonising populations, and that multiple mating can protect against extinction in novel thermal environments.
 
 **Key words:** colonisation, extinction, population dynamics, sexual selection, Tribolium
 
 \pagebreak
 
 ## Introduction
+Global heating, when combined with other anthropogenic pressures, is placing a range of ecological and evolutionary stresses on wild populations [@Hoffmann2011; @Pecl2017]. In particular, a combination of habitat clearance and changing temperatures will result in populations simultaneously going through bottlenecks, while needing to respond to novel thermal regimes [@Hill2011]. Understanding the behavioural, ecological, and genetic processes by which bottlenecked populations respond to novel thermal environments is therefore of relevance to understanding - and ultimately predicting - organismal responses to global warming. Disentangling these processes requires a combination of laboratory and field research at a wide range of organisational levels [@Scheffers2016].
 
-Understanding pocesses involved in colonisation success - particular relevance in the context of climate change
+One way that populations may be buffered against demographic and environmental change is through multiple mating, or polyandry [@Candolin2008; @Parrett2018]. In addition to the direct benefits that polyandry may provide to females and their ofspring (e.g. increased resources from males), multiple mating can also provide genetic benefits. Polyandry enables sexual selection, in which females may provide genetic benefits to their descendcents through biasing paternity towards high-quality males. There are multiple mechanisms by which sexual selection may improve population fitness [reviewed in @Yasui1998], including offspring inheriting either "good" or "compatible" genes as a result of female mate-choice resulting in increased fitness [@Neff2005], or through mate choice for increased genetic diversity in offspring, which may increase adaptability to fluctuating environments [@Garcia-Gonzalez2015]. 
 
-Polyandry - general benefits and role in establishment
+Polyandry may also provide benefits to individuals and populations even in the absence of sexual selection. The best studied mechanism through which this may occur is bet-hedging [@Watson1991]. If mate-choice is unreliable and there is variance in male fitness, indiscriminate mating with more than one male may be an effective bet-hedging strategy, and as such bet-hedging has been put forward as an explanation for the evolution of polyandry [@Yasui2016]. There is debate about whether the fitness gains derived from bet-hedging are sufficient to drive the evolution of polyandry [@Holman2016], but hedging may play an important role in the dynamic of small colonisinig populations where the consequences of mating with a single, low-quality male are expected to be particular severe [@Yasui2016].
 
-Tregenza model and Holman study
+Finally, polyandry may  enable colonisation of new environments through short-term reductions in inbreeding. Cornell and Tregenza [-@Cornell2007] developed a model showing that because offspring of polyandrous females contain half-sibs, inbreeding depression in future generations will be reduced, leading to greater probability of colonisation success. This theory received empirical support in a recent study of seed beetles (*Callosobruchus maculatus*), in which populations founded by polyandrous females had increased fitness after four generations compared to monogamous females [@Power2014]. Power and Holman [-@Power2014] also tested how these effects varied between two food sources (with one less favourable than the other), and found effects of similar magnitude; however, the fitness differences between the food sources were modest, and it is therefore not yet known to how much of a benefit polyandry may provide in especially harsh environments.
 
-The aim of this study is to test how polyandry affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypothesis that populations founded from polyandrous females were less likely to go extinct. We then tested the hypothesis that, in extant populations, polyandrous populations exhibited higher population growth rates and levels of fitness. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
+The red flour beetle *Tribolium castaneum* is an ideal model to test how polyandry influences colonisation success in a new environment. A pest of stored products, the ecology of *T. castaneum* is characterised by colonisation of empty habitats (e.g grain stores), presumably often by a small number of founders [@Dawson1977]. Experimental studies in this species have shown that founder effects have pronounced costs as a result of genetic and demographic effects, and that colonising populations are able to rapidly adapt to novel environments [@Szucs2014; @Szucs2017]. Further, this species is highly promiscuous and experimental evolution studies have shown that a history of sexual selection results in decreased risk of extinction under inbreeding, and in improved invasion of competitor populations [@Lumley2015; @Godwin2018]. However, the short-term benefits of polyandry for colonisation success have not been studied.
+
+The aim of this study is to test how polyandry affects colonisation dynamics in a novel thermal environment. We placed singly and doubly mated *T. castaneum* females into an empty habitat at high temperature, and allowed populations to grow for 10 generations. We first tested the hypotheses that, i) populations founded from polyandrous females were less likely to go extinct, and ii) that, in extant populations, polyandrous populations exhibited higher population growth rates. We use these findings to determine how mating strategy and inbreeding interact to affect colonisation dynamics in novel thermal environments.
 
 ## Materials and Methods
 
@@ -86,12 +89,56 @@ After 35 days, the first generation of offpsring were separated from the fodder 
 #### Statistical analyses
 All analyses were carried out using R version 3.3.3 [@Development_Core_Team2011]. We separately modeled how the experimental mating treatment affected i) the probability of extinction over ten generations, and ii) changes in population size over the same period. For the extinction analysis, we used Cox proportional hazards models, implemented in the survival package [@survival-package] in R. Because some populations went extinct in the first generation as a result of non-genetic processes (i.e. due to a failure to mate/conceive), we ran the survival models both with and without populations that went extinct in the first generation.
 
-To model how population size changed over time, we used generalised linear mixed models, implemented using the lme4 package [@lme4-package] in R. For this analysis we only included populations that remained extant throughout the 10 generations of the study. Offspring number per generation was modeled as a response variable with a Poisson error distribution, and generation and experimental treatment (monogamous vs polyandrous founder) were fitted as explanatory variables. We constructed three of models, with generation fitted as i) a continuous linear effect, ii) a fixed factor and iii) a third order polynomial. For all models, population ID was fitted as a random effect.
+To model how population size changed over time, we used generalised linear mixed models, implemented using the glmmADMB package [@glmmADMB-package] in R. For this analysis we only included population counts above zero. Offspring number per generation was modeled as a response variable with a negative binomial error distribution, and generation and experimental treatment (monogamous vs polyandrous founder) were fitted as explanatory variables. To account for potential non-linear changes in population size over time, we constructed three models, with generation fitted as i) a continuous linear effect, ii) a fixed factor and iii) a third order polynomial. For all models, population ID was fitted as a random effect. Finally, we tested for a difference in population size between experimental treatments in the first and last generation, using two separate generalized linear models (as above  but with no random effects), implemented using the MASS package [@MASS-package] in R.
 
 
 ## Results
 
-We tracked a total of `r nrow(filter(dd,Treatment == "Monogamous"))` singly-mated and `r nrow(filter(dd,Treatment == "Polyandrous"))` doubly-mated *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. Overall dynamics of the populations are given in Figure 1; though there was an overall trend for increasing population size, there were substantial fluctations over generations. Despite this, we observed a a clear and consistent trend of larger adult population size in populations founded by polyandrous compared to monogamous females (Fig. 1).
+We tracked a total of `r nrow(filter(dd,Treatment == "Monogamous"))` singly-mated and `r nrow(filter(dd,Treatment == "Polyandrous"))` doubly-mated *T. castaneum* populations in a novel thermal environmental until extinction, or for up to `r ngens` generations. Overall dynamics of the populations are given in Figure 1; though there was an overall trend for increasing population size, there were substantial fluctations over generations, with decreases in population size between generations three and for, and between generations six and seven (Fig. 1). Despite this, we observed a clear and consistent trend of larger adult population size in populations founded by polyandrous compared to monogamous females (Fig. 1).
+
+For statistical comparison of our experimental treatments, we separately tested for differences extinction rates (i.e. did time to extinction differ between treatments), and population size changes over time. In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))`  populations founded by singly-mated females went extinct (`r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%), while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%) and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) were extinct (Fig. 2A). The effect of treatment on time to extinction was significant (Cox proportional hazards; hazard ratio = `r round3(summary(survall)$conf.int[1])`; 95% CIs = `r round3(summary(survall)$conf.int[3])`, `r round3(summary(survall)$conf.int[4])`; $P$ = `r round3(summary(survall)$coefficients[5])`). This effect remained significant after removal of populations that went extinct in the first generation (hazard ratio = `r round3(summary(surv1)$conf.int[1])`; 95% CIs = `r round3(summary(surv1)$conf.int[3])`, `r round3(summary(surv1)$conf.int[4])`; $P$ = `r round3(summary(surv1)$coefficients[5])`).
+
+We next tested how founder mating regime affected fitness and population trajectories. Excluding extinctions, we found no significant difference in the number offspring produced by singly or doubly-mated pairs in the first generation (GLM, $P$ = `r round3(summary(pop1)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`). Considering all generations, however, we found that populations founded from polyandrous females had higher overall population sizes populations founded by monogamous females (Fig. 2B, Table 1). We also found that, when generation modeled as a linear variable, population size increased over time, but that there was no interaction between treatment and generation (Fig. 2B, Table 1). The effect of experimental treatment was also significant when generation was modeled as a fixed factor ($P$ = `r round3(filter(popfac,x == "TreatmentPolyandrous")$"Pr(>|z|)")`), and as a third-order polynomial ($P$ = `r round3(filter(poppoly,x == "TreatmentPolyandrous")$"Pr(>|z|)")`). Finally, considering only populations that survived all ten generations, population size in polyandrous-founded populations was significantly higher in monogamous-founded populations (GLM, $P$ = `r round3(summary(pop10)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`).
+
+
+## Discussion
+The costs of mating with multiple males are likely to outweigh any direct benefits gained, and such the evolution and maintenance of polyandry are generally viewed as an evolutionary puzzle. Potential indirect benefits of polyandry include i) enabling sexual selection, ii) enabling bet-hedging, and iii) reducing inbreeding load. Previous research using the *T. castaneum* model has found that long-term sexual selection results in increased population fitness [@Lumley2015; @Godwin2018]. Here we show that polyandry has substantial benefits in colonising populations, even when the opportunity for sexual selection is reduced. 
+
+Perhaps the best-studied way in which females can increase the fitness of their offspring through polyandry is through bet-hedging [@Yasui2016]. By mating with multiple males, females may reduce the risk of being fertilised by an unsuitable male, and therefore increase offspring fitness. Bet-hedging is likely to be most benifical when i) there is a substantial proportion of highly unsuitable (e.g. infertile) males in the population, and ii) the population is small. In our study of populations founded by a single female, the benefits of polyandry as a bet-hedging strategy are clear. We found that `r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`% of singly-mated females produced no offspring in the first generation, while all doubly-mated females produced offspring. This is consistent with a situation in which a failure to produce offspring is the result of male infertility, under which we would only have expected `r round2((nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous")))^2*100)`% of random pairs of males to both be infertile. Despite the obvious potential for polyandry to benefit colonising populations through guarding against male infertility, there is limited empirical evidence supporting this hypothesis [@Sutter2019]. In our study mating conditions were short and artificial, and studies of natural populations are required. Yet, given the likely high levels of make infertility in the wild (as high as 63% in insects [@GarciaGonzalez2004]), it is likely that multiple mating is an important mechanism for increasing short-term establishment probability in newly colonised populations.
+
+A second mechanism through which polyandry can benefit colonising populations in the absence of sexual selection is through reducing levels of inbreeding in subsequent generations [@Cornell2007]. Consistent with this hypothesis, we found significantly lower population sizes and higher extinction rates in monogamous-founded populations over the full duration of our experiment. Population sizes fluctuated substantially over the course of our experiment, likely a result of density-dependent processes which are well-documented in *T. castaneum* [@Mertz1972]. Though the higher population sizes in polyandrous-founded populations were generally consistent over time, it is notable that the difference between treatments was highest when population sizes were high (i.e. in generations 2,3,8 and 9), and lowest when population sizes were reduced (i.e. generations 4 and 7). 
+
+It is possible that a bet-hedging like scenario could explain these longer-term benefits of polyandry if there was substantial variation in fitness among fertile males, as multiple-mating would increase the chances of mating with at least one suitable make [@Yasui2016]. However, this is unlikely to explain our results, as found no difference in population size between treatments in the first generation, but instead only when considering later generations. 
+Similarly, if postcopulatory sexual selection could explain some of the differences observed between our experimental treatments, we would expect to observe at least some differences in offspring fitness in the first generation. We therefore suggest that in *T. castaneum* and similar systems, polyandry benefits colonising populations through i) guarding against male infertility and enabling establishment, and ii) reducing inbreeding and enabling longer-term population persistence.
+
+Our results are broadly consistent with a recent study in *C. maculatus*, in which the increased fitness in polyandrous-founded populations were observed in F3 and F4, but not F1 and F2, generations [@Power2014]. It is  worth noting here that, unlike in our study, Power and Holman [-@Power2014] found no effect of mating treatment on extinction, likely because of the environment was relatively benign, or because there was insufficient time for extinctions to occur. Here, through a longer-term experiment, we thus demonstrate that the benefits can persist for substantial periods of time, and show that they are likely to be important for populations colonising novel thermal environments.
+
+Finally, it is worth noting that our study does not aim to address whether the benefits gained from either bet-hedging or inbreeding avoidance are sufficient to explain the evolution of polyandry [@Yasui1998; @Cornell2007]. Rather, we suggest that in the specific context of colonising novel environments, the benfits of these processes are likely to be substantial [@Yasui2008]. Future climate change is expected to result in species shifting their ranges and undergoing changes in population size. There is increasing realisation that evolutionary processes need to be incorporated into predictive models of population and species responses to climate change [@Lavergne2010]. The multiple, interacting benefits of polyandry should certainly be incorporated into such models in order to improve predictive power.
+
+## Acknowledgements
+This research was funded by a BBSRC Future Leader fellowship to LGS (BB/N011759/1), a UEA-funded PhD studentship to RL, a BBSRC NRP DTP funded PhD studentship to MDP and a NERC EnvEast studentship to JB.
+
+
+## References
+<div id="refs"></div> 
+
+\pagebreak
+
+##Tables and Figures
+
+**Table 1** Summary of results from a generalised linear mixed model of population dynamics of experimental *T. castaneum* populations founded from monogamous or polyandrous females. Here, the 'treatment' estimate refers to the effect of polyandrous relative to monogamous females, and generation was modeled as a linear effect. Population ID was modeled as a random effect (Var = 0.12, SD = 0.35).
+
+```{r}
+t1 <- poplin %>%
+  rbind(filter(poplinint,x == "TreatmentPolyandrous:as.numeric(Generation)")) %>%
+  mutate(x = replace(x, x %in% c( "TreatmentPolyandrous","as.numeric(Generation)","TreatmentPolyandrous:as.numeric(Generation)"),c("Treatment","Generation","Treatment x Generation"))) %>%
+  dplyr::select(" " = "x", Estimate, "SE" = "Std. Error","P" =  "Pr(>|z|)") %>%
+  mutate(P = sapply(P,round3)) %>%
+  kable(digits = 3)
+t1
+```
+
+\pagebreak
 
 ```{r Fig 1,fig.width=8}
 Fig <- ddlong %>%
@@ -107,10 +154,7 @@ Fig
 
 **Figure 1**  Colonisation dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females.
 
-
-For statistical comparison of our experimental treatments, we separately compared extinction rates (i.e. did time to extinction differ between treatments), and population size changes over time (only including populations that survived the entire experiment). In the first generation, `r num2word(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous")))`  populations founded by singly-mated females went extinct (`r round(nrow(filter(dd,Offspring_Gen1 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%), while no populations founded by doubly-mated females went extinct. By generation 10, `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous")))` monogamous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Monogamous"))/nrow(filter(dd,Treatment == "Monogamous"))*100)`%) and `r num2word(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous")))` polyandrous populations (`r round(nrow(filter(dd,Offspring_Gen10 == 0, Treatment == "Polyandrous"))/nrow(filter(dd,Treatment == "Polyandrous"))*100)`%) were extinct (Fig. 2A). The effect of treatment on time to extinction was significant (Cox proportional hazards; hazard ratio = `r round3(summary(survall)$conf.int[1])`; 95% CIs = `r round3(summary(survall)$conf.int[3])`, `r round3(summary(survall)$conf.int[4])`; P = `r round3(summary(survall)$coefficients[5])`). This effect remained significant after removal of populations that went extinct in the first generation (hazard ratio = `r round3(summary(surv1)$conf.int[1])`; 95% CIs = `r round3(summary(surv1)$conf.int[3])`, `r round3(summary(surv1)$conf.int[4])`; P = `r round3(summary(surv1)$coefficients[5])`).
-
-We next tested founder mating strategy affected population sizes throughout the ten generations of our experiment, excluding populations that went extinct. We found that populations founded from polyandrous females had higher overall population sizes populations founded by monandrous males (Fig. 2B, Table 1). We also found that, when generation modeled as a linear variable, population size increased over time, but that there was no interaction between treatment and generation (Fig. 2B, Table 1). The effect of experimental treatment was also significant when generation was modeled as a fixed factor (P = `r round3(summary(popfac)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`), and as a third-order polynomial (P = `r round3(summary(poppoly)$coefficients["TreatmentPolyandrous","Pr(>|z|)"])`).
+\pagebreak
 
 ```{r Fig 2,fig.width=8}
 
@@ -124,11 +168,10 @@ FigA <- ddlong %>%
   scale_colour_manual(values = mycols)+
   theme(legend.position = "none")
 
-FigB <- ddlong %>%
-  filter(Offspring > 0) %>%
+FigB <- ddm %>%
   ggplot(aes(x = Generation,y = Offspring,col = Treatment)) +
   geom_line(aes(group = ID),alpha = 0.2)+
-  geom_smooth(aes(x = as.numeric(Generation)),method = "glm",method.args = list(family = "poisson")) +
+  geom_smooth(aes(x = as.numeric(Generation)),method = "glm.nb",se = T) +
   ylab("Number of adults")+
   theme(legend.position = "none")+
   scale_colour_manual(values = mycols)
@@ -147,21 +190,4 @@ plot_grid(legend_b, plots, ncol = 1, rel_heights = c(0.1, 1))
 **Figure 2**  Extinction and population dynamics of experimental *T. castaneum* populations founded from singly-mated (monogamous) or doubly-mated (polyandrous) females. **A** Proportion of populations survivng over time; **B** number of adults in experimental populations that survived through ten generations; thin lines represent individual populations, while the thick lines represent fitted values from a GLM.
 
 
-**Table 1** Summary of results from a generalised linear mixed model of population dynamics of experimental *T. castaneum* populations founded from monandrous or polyandrous females. Here, the 'treatment' estimate refers to the effect of polyandrous relative to monandrous females, and generation was modeled as a linear effect. Population ID was modeled as a random effect (Var = 0.27, SD = 0.52).
-
-```{r}
-t1 <- summary(poplin)$coefficients %>%
-  data.frame() %>%
-  rbind(summary(poplinint)$coefficients["TreatmentPolyandrous:as.numeric(Generation)",]) %>%
-  rownames_to_column("x") %>%
-  mutate(x = replace(x, x %in% c( "TreatmentPolyandrous","as.numeric(Generation)","4"),c("Treatment","Generation","Treatment x Generation"))) %>%
-  select(" " = "x", Estimate, "SE" = "Std..Error","P" =  "Pr...z..") %>%
-  mutate(P = sapply(P,round3)) %>%
-  kable(digits = 3)
-t1
-```
-
-## Discussion
-
-## References
 
