@@ -9,11 +9,10 @@ pop1 <- glm.nb(Offspring_Gen1~Treatment,data=dd1)
 
 
 # Slow models - only run if updating --------------------------------------
-
-# poplin <- glmmadmb(Offspring~Treatment  + as.numeric(Generation), random = ~1|ID, data=ddm,family = "nbinom")
-# poplinint <- glmmadmb(Offspring~Treatment  * as.numeric(Generation), random = ~1|ID, data=ddm,family = "nbinom")
-# poppoly <- glmmadmb(Offspring~Treatment  + poly(as.numeric(Generation),3), random = ~1|ID, data=ddm,family = "nbinom")
-# popfac <- glmmadmb(Offspring~Treatment  + Generation, random = ~1|ID, data=ddm,family = "nbinom")
+# ddm$GenN <- as.numeric(ddm$Generation)
+# poplin <- glmmadmb(Offspring~Treatment  + GenN + (1+GenN|ID), data=ddm,family = "nbinom")
+# poplinint <- glmmadmb(Offspring~Treatment  * GenN  + (1+GenN|ID), data=ddm,family = "nbinom")
+# poppoly <- glmmadmb(Offspring~Treatment  + poly(GenN,3,raw = T)  + (1+GenN|ID), data=ddm,family = "nbinom")
 # 
 # summary(poplin)$coefficients %>%
 #   as_tibble(rownames = "x") %>%
