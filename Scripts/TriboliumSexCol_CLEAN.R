@@ -14,7 +14,7 @@ ngens <- length(grep("Offspring",colnames(dd)))
 
 theme_lgs <- theme_bw()
 theme_set(theme_lgs)
-mycols <- c("dodgerblue3","darkorange")
+mycols <- c("dodgerblue4","darkorange")
 
 
 

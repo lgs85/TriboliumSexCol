@@ -1,0 +1,26 @@
+
+---
+output:
+  pdf_document:
+bibliography: MyBib.bib
+csl: JEB.csl
+header-includes: \usepackage{graphicx}
+    \usepackage{setspace}
+    \doublespacing
+    \usepackage{lineno}
+    \linenumbers
+---
+
+# Polyandry enables successful colonisation in a challenging thermal environment
+
+
+Rebecca C. Lewis\*, Michael D. Pointer\*, Lucy A. Friend, Ramakrishnan Vasudeva, James Bemrose, Andreas Sutter, Matthew J.G. Gage and Lewis G. Spurgin\*\*
+
+School of Biological Sciences, University of East Anglia, Norwich Research Park, United Kingdom, NR4 7TJ
+
+\* These authors contributed equally to this work
+
+\*\* **Correspondence**: L.Spurgin@uea.ac.uk
+
+## Acknowledgements
+This research was funded by a BBSRC Future Leader fellowship to LGS (BB/N011759/1), a UEA-funded PhD studentship to RL, BBSRC NRP DTP funded PhD studentships to MDP and JB.
