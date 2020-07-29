@@ -22,27 +22,19 @@ mycols <- c("dodgerblue4","darkorange")
 
 ddlong <- dd%>%
   gather(key = Generation, value = Offspring, paste0("Offspring_Gen",c(1:ngens))) %>%
-  mutate(Generation = str_split(Generation, "Gen",simplify = T)[,2])
-ddlong$Generation <- factor(ddlong$Generation, levels = as.character(c(1:10)))
+  mutate(Generation = str_split(Generation, "Gen",simplify = T)[,2]) %>%
+  mutate(Generation = factor(Generation, levels = as.character(c(1:ngens))))
 
 
 # Survival ----------------------------------------------------------------
 
-temp <- dd
-
-temp$Offspring_Gen11 <- 0
-temp$SurvivalTime <- NA
-
-for(i in 1:nrow(temp))
-{
-  temp$SurvivalTime[i] <- min(which(temp[i,] == 0))-5
-}
-
-dd$Cens <- ifelse(temp$SurvivalTime == 11,0,1)
-dd$SurvTime <- temp$SurvivalTime
-
-temp <- NULL
-
+dd %<>%
+  rowwise() %>%
+  mutate(Offspring_Gen11 = 0) %>%
+  rowwise() %>%
+  mutate(SurvTime = min(which(c_across(Offspring_Gen2:Offspring_Gen11) == 0))) %>%
+  mutate(Cens = ifelse(SurvTime == 10,0,1)) %>%
+  dplyr::select(-Offspring_Gen11)
 
 
 # Subset removing first gen extinctions -----------------------------------

@@ -4,6 +4,7 @@ library(survival)
 library(lme4)
 library(glmmADMB)
 library(MASS)
+library(magrittr)
 
 # Run if data updated on google sheets ------------------------------------
 
