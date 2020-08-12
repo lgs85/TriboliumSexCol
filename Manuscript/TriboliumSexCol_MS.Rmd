@@ -54,6 +54,8 @@ Polyandry, when females mate with more than one male, is theorised to play an im
 
 **Key words:** extinction, inbreeding depression, population dynamics, sexual selection, *Tribolium*
 
+**Running title:** Polyandry and colonisation
+
 \pagebreak
 
 ## Introduction
@@ -109,6 +111,12 @@ This research was funded by a BBSRC Future Leader fellowship to LGS (BB/N011759/
 
 ## Data availability
 The data and code to reproduce all analyses in this manuscript are available on Github (https://github.com/lgs85/TriboliumSexCol)
+
+## Competing interests
+The authors declare no competing interests
+
+##Author contributions
+RL, MDP, LAF, AS, MJGG and LGS conceived the study; MJGG and LGS supervised the study; RL, MDP, LAF, RV, JB and LGS carried out the experiments; LGS carried out the analyses with input from AS; LGS drafted the analysis with input from RL, MDP, LAF, AS and MJGG; all authors commented on manuscript drafts and approved the final version of the manuscript. 
 
 ## References
 <div id="refs"></div> 
